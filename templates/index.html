@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CiteVerify - Scientific Claim Verification</title>
+  <meta name="description" content="Free, open-source scientific claim verification with quality-weighted consensus, retraction checks, and anti-fabrication quote verification.">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- Permanent Scientific Limitations Notice -->
+  <aside class="limitations-banner" role="note" aria-label="Limitations Notice">
+    <div class="container banner-inner">
+      <span class="banner-icon">⚖️</span>
+      <p><strong>Permanent Notice:</strong> Verdicts are based on study abstracts, not full papers. Always read the original papers before making medical, dietary, or health decisions.</p>
+    </div>
+  </aside>
+
+  <!-- Navigation / Header -->
+  <header class="app-header">
+    <div class="container header-container">
+      <div class="logo-group">
+        <a href="/" class="brand-logo" aria-label="CiteVerify Home">
+          <span class="logo-mark">🔬</span>
+          <span class="logo-text">Cite<strong>Verify</strong></span>
+        </a>
+        <span class="badge badge-free">Free &amp; Open Source</span>
+      </div>
+      <nav class="nav-links" aria-label="Header Links">
+        <a href="#how-it-works" class="nav-link">How It Works</a>
+        <a href="#demo-claims" class="nav-link">Demo Claims</a>
+        <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="nav-link github-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container main-content">
+
+    <!-- Hero Title -->
+    <section class="hero-section">
+      <h1 class="hero-title">Honest, Quality-Weighted Scientific Verification</h1>
+      <p class="hero-subtitle">
+        Enter a claim or article. CiteVerify queries real peer-reviewed papers across <strong>PubMed</strong> and <strong>Semantic Scholar</strong>, flags retractions via <strong>Crossref</strong>, verifies evidence sentences verbatim, and calculates a quality-weighted consensus.
+      </p>
+    </section>
+
+    <!-- Input Card -->
+    <section class="input-card" aria-label="Claim Verification Input">
+      <!-- Tabs -->
+      <div class="tabs" role="tablist">
+        <button class="tab-button active" role="tab" aria-selected="true" data-tab="tab-claim" id="tab-btn-claim">
+          <span class="tab-icon">💬</span> Single Claim
+        </button>
+        <button class="tab-button" role="tab" aria-selected="false" data-tab="tab-text" id="tab-btn-text">
+          <span class="tab-icon">📄</span> Article Text
+        </button>
+        <button class="tab-button" role="tab" aria-selected="false" data-tab="tab-url" id="tab-btn-url">
+          <span class="tab-icon">🔗</span> Article URL
+        </button>
+      </div>
+
+      <!-- Tab 1: Single Claim -->
+      <div class="tab-panel active" id="tab-claim" role="tabpanel" aria-labelledby="tab-btn-claim">
+        <form id="form-claim" class="verify-form">
+          <label for="claim-input" class="form-label">Scientific or Health Claim</label>
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="claim-input"
+              class="text-input"
+              placeholder="e.g. Intermittent fasting improves insulin sensitivity"
+              required
+              autocomplete="off"
+            />
+            <button type="submit" id="btn-verify-claim" class="btn btn-primary">
+              <span class="btn-text">Verify Claim</span>
+              <span class="btn-spinner" aria-hidden="true"></span>
+            </button>
+          </div>
+        </form>
+
+        <!-- Example Demos -->
+        <div class="demo-examples" id="demo-claims">
+          <span class="demo-label">Try example claims:</span>
+          <div class="demo-buttons">
+            <button type="button" class="btn-chip" data-claim="Intermittent fasting improves insulin sensitivity">
+              🌱 Intermittent fasting &amp; insulin
+            </button>
+            <button type="button" class="btn-chip" data-claim="Vitamin C prevents the common cold">
+              🍊 Vitamin C prevents colds
+            </button>
+            <button type="button" class="btn-chip btn-chip-warning" data-claim="Vaccines cause autism">
+              ⚠️ Vaccines cause autism (Retraction Demo)
+            </button>
+            <button type="button" class="btn-chip" data-claim="Regular exercise reduces the risk of depression">
+              🏃 Exercise reduces depression
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Article Text -->
+      <div class="tab-panel" id="tab-text" role="tabpanel" aria-labelledby="tab-btn-text" hidden>
+        <form id="form-text" class="verify-form">
+          <label for="article-text-input" class="form-label">Paste Article or News Text</label>
+          <textarea
+            id="article-text-input"
+            class="textarea-input"
+            rows="5"
+            placeholder="Paste text from a health or science article. CiteVerify will extract up to 6 testable scientific claims for verification..."
+            required
+          ></textarea>
+          <div class="form-actions">
+            <button type="submit" id="btn-extract-text" class="btn btn-primary">
+              <span class="btn-text">Extract &amp; Inspect Claims</span>
+              <span class="btn-spinner" aria-hidden="true"></span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Tab 3: Article URL -->
+      <div class="tab-panel" id="tab-url" role="tabpanel" aria-labelledby="tab-btn-url" hidden>
+        <form id="form-url" class="verify-form">
+          <label for="article-url-input" class="form-label">Article Web URL</label>
+          <div class="input-wrapper">
+            <input
+              type="url"
+              id="article-url-input"
+              class="text-input"
+              placeholder="https://www.example.com/health/new-study-diet"
+              required
+            />
+            <button type="submit" id="btn-extract-url" class="btn btn-primary">
+              <span class="btn-text">Fetch &amp; Extract Claims</span>
+              <span class="btn-spinner" aria-hidden="true"></span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Multi-Claim Extracted List (for Text / URL modes) -->
+    <section id="extracted-claims-section" class="extracted-claims-card" hidden aria-label="Extracted Claims">
+      <div class="section-header-row">
+        <div>
+          <h2 class="section-title">Extracted Scientific Claims</h2>
+          <p class="section-desc">Select a claim to verify against peer-reviewed literature:</p>
+        </div>
+        <button id="btn-close-claims" class="btn-text-link" aria-label="Close extracted claims">✕ Dismiss</button>
+      </div>
+      <div id="extracted-claims-list" class="claims-list"></div>
+    </section>
+
+    <!-- Real-time Progress Bar & Live SSE Status -->
+    <section id="progress-card" class="progress-card" hidden aria-live="polite">
+      <div class="progress-header">
+        <div class="progress-title-group">
+          <div class="spinner-small" aria-hidden="true"></div>
+          <span id="progress-status-text" class="progress-status-text">Connecting to verification pipeline...</span>
+        </div>
+        <span id="progress-pct" class="progress-pct">0%</span>
+      </div>
+      <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div id="progress-fill" class="progress-fill"></div>
+      </div>
+      <div id="progress-log" class="progress-log"></div>
+    </section>
+
+    <!-- Error Callout Box -->
+    <div id="error-box" class="error-box" hidden role="alert">
+      <span class="error-icon">⚠️</span>
+      <div class="error-content">
+        <strong id="error-title">Verification Error</strong>
+        <p id="error-message">Something went wrong.</p>
+      </div>
+    </div>
+
+    <!-- Verification Results Presentation -->
+    <section id="results-section" class="results-section" hidden aria-label="Verification Results">
+
+      <!-- Compound Claim Breakdown Notice -->
+      <div id="compound-breakdown-box" class="compound-box" hidden>
+        <span class="compound-icon">🧩</span>
+        <div class="compound-content">
+          <strong>Compound Claim Detected:</strong>
+          <span id="compound-explanation">This assertion contains multiple distinct parts. Sub-claims:</span>
+          <div id="sub-claims-chips" class="sub-claims-chips"></div>
+        </div>
+      </div>
+
+      <!-- Verdict Banner -->
+      <div id="verdict-banner" class="verdict-banner">
+        <div class="verdict-header">
+          <div class="verdict-headline">
+            <span id="verdict-icon" class="verdict-icon"></span>
+            <div>
+              <span class="verdict-caption">Consensus Verdict</span>
+              <h2 id="verdict-title" class="verdict-title">SUPPORTED</h2>
+            </div>
+          </div>
+          <div class="verdict-meta">
+            <div class="meta-pill">
+              <span class="meta-label">Confidence:</span>
+              <strong id="verdict-confidence" class="meta-val">HIGH</strong>
+            </div>
+            <div class="meta-pill">
+              <span class="meta-label">Analyzed Papers:</span>
+              <strong id="verdict-paper-count" class="meta-val">6</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Plain-Language 2-Sentence Summary -->
+        <div class="summary-box">
+          <h3 class="summary-heading">Plain-Language Summary</h3>
+          <p id="verdict-summary" class="summary-text"></p>
+        </div>
+
+        <!-- Weak Evidence Warning Banner -->
+        <div id="weak-evidence-box" class="weak-evidence-banner" hidden role="note">
+          <span class="weak-icon">⚠️</span>
+          <div>
+            <strong>Caution: Weak Evidence Base</strong>
+            <p id="weak-evidence-text">Evidence is based on fewer than 3 studies or lower-tier designs. Confidence is restricted.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Consensus Meter (Stacked Quality-Weighted Bar) -->
+      <div class="consensus-meter-card">
+        <div class="meter-header">
+          <h3 class="meter-title">Quality-Weighted Consensus Distribution</h3>
+          <span class="meter-desc">Weighted by study type (Meta-analyses 3.0x > RCTs 2.0x > Reviews 1.0x), log citations &amp; recency.</span>
+        </div>
+
+        <div class="stacked-bar-container" aria-label="Consensus Distribution Bar">
+          <div id="bar-supports" class="bar-segment bar-supports" style="width: 0%" title="Supports"></div>
+          <div id="bar-contradicts" class="bar-segment bar-contradicts" style="width: 0%" title="Contradicts"></div>
+          <div id="bar-neutral" class="bar-segment bar-neutral" style="width: 0%" title="Neutral / Inconclusive"></div>
+        </div>
+
+        <div class="meter-legend">
+          <div class="legend-item">
+            <span class="legend-color legend-supports"></span>
+            <span class="legend-text">Supports: <strong id="pct-supports">0%</strong> (<span id="cnt-supports">0</span> studies)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color legend-contradicts"></span>
+            <span class="legend-text">Contradicts: <strong id="pct-contradicts">0%</strong> (<span id="cnt-contradicts">0</span> studies)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color legend-neutral"></span>
+            <span class="legend-text">Neutral / Inconclusive: <strong id="pct-neutral">0%</strong> (<span id="cnt-neutral">0</span> studies)</span>
+          </div>
+          <div id="legend-retracted-item" class="legend-item legend-retracted" hidden>
+            <span class="legend-color legend-retracted-color"></span>
+            <span class="legend-text"><strong>Excluded Retracted:</strong> <span id="cnt-retracted">0</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toolbar: Filters, Sorting, and Report Exports -->
+      <div class="results-toolbar">
+        <div class="filter-controls">
+          <label for="filter-stance" class="toolbar-label">Show:</label>
+          <select id="filter-stance" class="select-input">
+            <option value="all">All Evidence</option>
+            <option value="supports">Supports Only</option>
+            <option value="contradicts">Contradicts Only</option>
+            <option value="neutral">Neutral Only</option>
+            <option value="retracted">Retracted Only</option>
+          </select>
+
+          <label for="sort-papers" class="toolbar-label">Sort by:</label>
+          <select id="sort-papers" class="select-input">
+            <option value="weight">Quality Weight (High to Low)</option>
+            <option value="citations">Citations (High to Low)</option>
+            <option value="year">Recency (Newest First)</option>
+          </select>
+        </div>
+
+        <div class="export-controls">
+          <button id="btn-export-md" class="btn btn-secondary">
+            <span class="btn-icon">📥</span> Export Markdown
+          </button>
+          <button id="btn-export-pdf" class="btn btn-secondary">
+            <span class="btn-icon">🖨️</span> Print / PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- Papers Evidence Cards List -->
+      <div id="papers-list" class="papers-list" aria-label="Evidence Papers"></div>
+
+    </section>
+
+    <!-- How CiteVerify Works Section -->
+    <section id="how-it-works" class="info-section">
+      <h2 class="info-title">Why CiteVerify is Different</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <h3 class="feature-heading">Anti-Fabrication Rule</h3>
+          <p>Unlike standard LLM summaries, CiteVerify verifies every cited sentence against the actual paper abstract in code. Hallucinated or paraphrased quotes are instantly rejected.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚖️</div>
+          <h3 class="feature-heading">Quality-Weighted Consensus</h3>
+          <p>We don't just count votes. Meta-analyses and large randomized controlled trials carry up to 3.5x the weight of observational reviews, scaled by log citations and recency.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🚫</div>
+          <h3 class="feature-heading">Active Retraction Detection</h3>
+          <p>Every paper DOI is queried against Crossref updates and PubMed tags. Retracted papers are highlighted in red and completely purged from consensus scores.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3 class="feature-heading">Honest Verdicts</h3>
+          <p>When fewer than 3 papers exist or evidence is thin, CiteVerify raises an explicit weak-evidence warning and caps confidence. We never claim certainty on flimsy data.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="container footer-content">
+      <div class="footer-left">
+        <strong>CiteVerify</strong> &mdash; Free, Open-Source Scientific Claim Verification.
+        <p class="privacy-note">Privacy Guarantee: Queries and articles are processed in-memory only (1-hour cache) and are never stored on disk or in a database.</p>
+      </div>
+      <div class="footer-right">
+        <span>Data sources: PubMed &bull; Semantic Scholar &bull; Crossref API</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
